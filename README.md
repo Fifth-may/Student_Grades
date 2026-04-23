@@ -14,10 +14,10 @@ This is also the reason why the code was done all at once.
 
 As a part of the challenge, I designed it so that there are 4 main parts:
 
-database initializaiton
-database logic
-input verification
-ui logic
+1. database initializaiton
+2. database logic
+3. input verification
+4. ui logic
 
 and these 4 parts build a system containing of 9 controls
 
