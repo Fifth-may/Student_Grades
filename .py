@@ -3,60 +3,7 @@ import sqlite3
 # --- 第一段：全局常量 ---
 DB_NAME = "student_grades.db"
 
-# --- 第一点五段：验证数值可行性 ---
 
-def verify_name():
-    name = input("请输入学生姓名 按回车取消: ").strip()
-    try:
-        name = int(name)
-        print("姓名不能为数字")
-        return verify_name()
-    except ValueError:
-        return name
-
-def verify_score():
-    score = int(input("请输入考试最高分数: ").strip())
-    try:
-        score = int(score)
-        return score
-    except ValueError:
-        print("分数只能为数字")
-        return verify_score()
-
-def verify_grade():
-    grade = int(input("请输入考试分数: ").strip())
-    try:
-        grade = int(grade)
-        return grade
-    except ValueError:
-        print("分数只能为数字")
-        return verify_grade()
-def verify_score_name(name,title):
-    with sqlite3.connect(DB_NAME) as conn:
-        #姓名
-        cursor = conn.cursor()
-        cursor.execute("SELECT Students.name FROM Students WHERE name = ? ",(name,))
-        student = cursor.fetchone()
-        
-        if not student:
-            print(f"没找到学生：{name}")
-            return False
-        
-        #考试
-        # continue on the if statement for the tests title 4/22 1:33a.m.
-        cursor.execute("SELECT Subjects.title FROM Subjects WHERE title = ?",(title,))
-        score = cursor.fetchone()
-        
-
-        #没有录入记录
-        if not score:
-            print(f"没找到科目：{title}")
-            return False
-        
-
-        return True
-
-        
 # --- 第二段：数据库逻辑 ---
 def init_db():
 
@@ -238,6 +185,62 @@ def db_delete_subject():
     except sqlite3.Error as e:
         print(f"查询失败: {e}")
         return False
+    
+# 3. 验证输入值
+
+
+def verify_name():
+    name = input("请输入学生姓名 按回车取消: ").strip()
+    try:
+        name = int(name)
+        print("姓名不能为数字")
+        return verify_name()
+    except ValueError:
+        return name
+
+def verify_score():
+    score = int(input("请输入考试最高分数: ").strip())
+    try:
+        score = int(score)
+        return score
+    except ValueError:
+        print("分数只能为数字")
+        return verify_score()
+
+def verify_grade():
+    grade = int(input("请输入考试分数: ").strip())
+    try:
+        grade = int(grade)
+        return grade
+    except ValueError:
+        print("分数只能为数字")
+        return verify_grade()
+def verify_score_name(name,title):
+    with sqlite3.connect(DB_NAME) as conn:
+        #姓名
+        cursor = conn.cursor()
+        cursor.execute("SELECT Students.name FROM Students WHERE name = ? ",(name,))
+        student = cursor.fetchone()
+        
+        if not student:
+            print(f"没找到学生：{name}")
+            return False
+        
+        #考试
+        # continue on the if statement for the tests title 4/22 1:33a.m.
+        cursor.execute("SELECT Subjects.title FROM Subjects WHERE title = ?",(title,))
+        score = cursor.fetchone()
+        
+
+        #没有录入记录
+        if not score:
+            print(f"没找到科目：{title}")
+            return False
+        
+
+        return True
+
+        
 # --- 第三段：UI 逻辑 ---
 def ui_add_student():
     print("\n--- 添加新学生 ---")
