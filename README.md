@@ -7,6 +7,8 @@ Insert values into these table
 
 Be able to delete values
 
+view the values
+
 The main panel language is chinese because I was practising my chinese for an upcoming test. I will translate it to english maybe sometime later.
 The code was built in a separate new folder that was used first for cleaner workspace in vscode. 
 I was supposed to return to the other folder but I kinda forgot and continued writing on this folder. 
