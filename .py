@@ -185,7 +185,26 @@ def db_delete_subject():
     except sqlite3.Error as e:
         print(f"查询失败: {e}")
         return False
-    
+
+def db_view_student_reports():
+    student = input("请输入学生姓名: ")
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            cursor = conn.cursor()
+            query = """
+                SELECT Students.name, Subjects.title, Grades.score, Subjects.max_score
+                FROM Grades
+                JOIN Students ON Grades.student_id = Students.student_id
+                JOIN Subjects ON Grades.subjects_id = Subjects.subjects_id
+                WHERE Students.name = (?);
+
+            """
+            cursor.execute(query,(student,))
+            return cursor.fetchall()
+    except sqlite3.Error as e:
+        print(f"查询失败: {e}")
+        return False
+
 # 3. 验证输入值
 
 
@@ -287,12 +306,30 @@ def ui_view_reports():
         return
 
     # 打印表头
-    print(f"{'姓名':<10} | {'科目':<10} | {'分数':<6} | {'满分':<6} | {'百分比'}")
+    print(f"{'姓名':<10} | {'考试':<10} | {'分数':<6} | {'满分':<6} | {'百分比'}")
     print("-" * 60)
 
     for name, title, score, max_score in results:
         percentage = (score / max_score) * 100 if max_score > 0 else 0
         print(f"{name:<10} | {title:<10} | {score:<8} | {max_score:<8} | {percentage:.1f}%")
+
+def ui_view_student_report():
+    print("\n=== 学生成绩报表 ===")
+    results = db_view_student_reports()
+
+    if not results:
+        print("目前没有任何成绩记录。")
+        return
+    
+    print(f"{'姓名':<10} | {'考试':<10} | {'分数':<6} | {'满分':<6} | {'百分比'}")
+    print("-" * 60)
+
+    for name, title, score, max_score in results:
+        percentage = (score / max_score) * 100 if max_score > 0 else 0
+        print(f"{name:<10} | {title:<10} | {score:<8} | {max_score:<8} | {percentage:.1f}%")
+
+
+
 
 def ui_view_students():
     print("\n=== 学生统计 ===")
@@ -330,8 +367,8 @@ def main():
     init_db()  
     while True:
         print("\n=== 学生成绩系统菜单 ===")
-        print("1. 添加学生 | 2. 录入考试成绩 | 3.添加考试 | 4. 查看报表 | 5. 查看已有的学生 | 6.查看已有的考试 | 7.删除学生 | 8.删除考试 | 9. 退出")
-        choice = input("请选择 (1-9): ").strip()
+        print("1. 添加学生 | 2. 录入考试成绩 | 3.添加考试 | 4. 查看报表 | 5.查看学生成绩 | 6. 查看已有的学生 | 7.查看已有的考试 | 8.删除学生 | 9.删除考试 | 10. 退出")
+        choice = input("请选择 (1-10): ").strip()
         
         if choice == '1':
             ui_add_student()
@@ -341,15 +378,17 @@ def main():
             ui_add_subject()
         elif choice == '4':
             ui_view_reports()
-        elif choice =='5':
+        elif choice == '5':
+            ui_view_student_report()
+        elif choice =='6':
             ui_view_students()
-        elif choice == "6":
+        elif choice == "7":
             ui_view_subjects()
-        elif choice == '7':
-            ui_delete_student()
         elif choice == '8':
-            ui_delete_subject()
+            ui_delete_student()
         elif choice == '9':
+            ui_delete_subject()
+        elif choice == '10':
             print("再见！")
             break
         else:
