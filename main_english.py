@@ -368,7 +368,7 @@ def main():
     while True:
         print("\n=== student grade menu ===")
         print("1. add student | 2. insert test scores | 3.add tests | 4. view all student scores | 5.view single student scores | 6. view students in database | 7.view tests in database | 8.delete student | 9.delete tests| 10. exit")
-        choice = input("请选择 (1-10): ").strip()
+        choice = input("please choose (1-10): ").strip()
         
         if choice == '1':
             ui_add_student()
@@ -392,7 +392,7 @@ def main():
             print("再见！")
             break
         else:
-            print("选项不存在，请重新选择")
+            print("vhoice does not exist, please retry")
 
 if __name__ == "__main__":
     main()
