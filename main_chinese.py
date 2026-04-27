@@ -311,7 +311,7 @@ def ui_view_reports():
 
     for name, title, score, max_score in results:
         percentage = (score / max_score) * 100 if max_score > 0 else 0
-        print(f"{name:<10} | {title:<10} | {score:<8} | {max_score:<8} | {percentage:.1f}%")
+        print(f"{name+(11-len(name))* ' '} | {title+(11-len(title))*' '} | {score}{(8-len(str(score)))*' '} | {max_score}{(8-len(str(max_score)))*' '} | {percentage:.1f}%")
 
 def ui_view_student_report():
     print("\n=== 学生成绩报表 ===")
@@ -326,7 +326,7 @@ def ui_view_student_report():
 
     for name, title, score, max_score in results:
         percentage = (score / max_score) * 100 if max_score > 0 else 0
-        print(f"{name:<10} | {title:<10} | {score:<8} | {max_score:<8} | {percentage:.1f}%")
+        print(f"{name+(11-len(name))* ' '} | {title+(11-len(title))*' '} | {score}{(8-len(str(score)))*' '} | {max_score}{(8-len(str(max_score)))*' '} | {percentage:.1f}%")
 
 
 
