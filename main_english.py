@@ -392,7 +392,7 @@ def main():
             print("再见！")
             break
         else:
-            print("vhoice does not exist, please retry")
+            print("choice does not exist, please retry")
 
 if __name__ == "__main__":
     main()
